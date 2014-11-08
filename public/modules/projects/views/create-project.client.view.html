@@ -3,16 +3,63 @@
         <h1>New Project</h1>
     </div>
     <div class="col-md-12">
-        <form class="form-horizontal" data-ng-submit="create()" novalidate>
+        <form class="form-horizontal" data-ng-submit="loadGitProject()" novalidate>
             <fieldset>
                 <div class="form-group">
-                    <label class="control-label" for="name">Name</label>
+                    <label class="control-label" for="gitAdress">address</label>
                     <div class="controls">
-                        <input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Name" required>
+                        <input type="text" data-ng-model="gitAddress" id="gitAddress" class="form-control" placeholder="Git Adress" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-default">
+                    <input type="submit" class="btn btn-default" value="Load">
+                </div>
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+            </fieldset>
+        </form >
+            
+        <form class="form-horizontal" data-ng-submit="create()" ng-show="displayInputFields" novalidate>
+            <fieldset>
+                <div class="form-group">
+					<label class="control-label" for="name">Name</label>
+					<div class="controls">
+						<input name="name" type="text" data-ng-model="projectInfo.name" id="name" class="form-control" placeholder="Name">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="control-label" for="description">Description</label>
+					<div class="controls">
+						<input name="description" type="text" data-ng-model="projectInfo.description" id="description" class="form-control" placeholder="Description">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="control-label" for="version">Version</label>
+					<div class="controls">
+						<input name="version" type="text" data-ng-model="projectInfo.version" id="version" class="form-control" placeholder="version">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="control-label" for="author">Author</label>
+					<div class="controls">
+						<input name="author" type="text" data-ng-model="projectInfo.author" id="author" class="form-control" placeholder="author">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="control-label" for="node">Node</label>
+					<div class="controls">
+						<input name="node" type="text" data-ng-model="projectInfo.engines.node" id="node" class="form-control" placeholder="Node">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="control-label" for="npm">Npm</label>
+					<div class="controls">
+						<input name="npm" type="text" data-ng-model="projectInfo.engines.npm" id="npm" class="form-control" placeholder="Npm">
+					</div>
+				</div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-default" value="Submit">
                 </div>
 				<div data-ng-show="error" class="text-danger">
 					<strong data-ng-bind="error"></strong>

@@ -1,28 +1,53 @@
 'use strict';
 
 // Projects controller
-angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Projects',
-	function($scope, $stateParams, $location, Authentication, Projects) {
+angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Projects', 'git',
+	function($scope, $stateParams, $location, Authentication, Projects, git) {
 		$scope.authentication = Authentication;
-
+        $scope.displayInputFields = false;
+        
 		// Create new Project
 		$scope.create = function() {
 			// Create new Project object
 			var project = new Projects ({
-				name: this.name
+                link: this.projectInfo.link,
+				name: this.projectInfo.name,
+                description: this.projectInfo.description,
+                version: this.projectInfo.version,
+                author: this.projectInfo.author
 			});
-
+            
 			// Redirect after save
 			project.$save(function(response) {
 				$location.path('projects/' + response._id);
 
 				// Clear form fields
 				$scope.name = '';
+                $scope.description = '';
+                $scope.version = '';
+                $scope.author = '';
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
 		};
 
+        $scope.loadGitProject = function () {
+            //take in git address
+            console.log(this.gitAddress);
+            
+            if (this.gitAddress.search(/[a-z]*(:\/\/)(github)/i) > -1) {
+                
+                $scope.projectInfo = git.update({ gitAdress:this.gitAddress });
+                console.log($scope.projectInfo);
+
+                $scope.displayInputFields = true;
+            }
+            
+            //fetch project.json file from address
+            
+            //populate project fields
+        };
+        
 		// Remove existing Project
 		$scope.remove = function(project) {
 			if ( project ) { 

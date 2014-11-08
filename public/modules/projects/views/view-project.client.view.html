@@ -18,4 +18,11 @@
 			<span data-ng-bind="project.user.displayName"></span>
 		</em>
 	</small>
+	
+	<div id="page-info">
+        <a ng-href="{{project.link}}">{{project.link}}</a>
+        <p data-ng-bind="project.description"></p>
+        <p data-ng-bind="project.version"></p>
+        <p data-ng-bind="project.author"></p>
+    </div>
 </section>
