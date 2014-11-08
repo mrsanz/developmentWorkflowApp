@@ -10,10 +10,8 @@ angular.module('projects').factory('Projects', ['$resource',
 			}
 		});
 	}
-]).factory('git', ['$gitAddress', function($gitAddress) {
-		return $gitAddress('gitLoad/', 
-        { gitAddress: $gitAddress }, 
-                           {
+]).factory('git', ['$resource', function($resource) {
+		return $resource('gitload/', null, {
 			update: {
 				method: 'PUT'
 			}
