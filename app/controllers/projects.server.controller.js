@@ -16,10 +16,11 @@ var mongoose = require('mongoose'),
  */
 
 exports.gitLoad = function(req, res){
-    console.log('Loading ' + req.getAddress);
-    var gitAddress = req.gitAddress;
+    var gitAddress = req.body.gitAddress;
     var packageFile = {};
     var storagePath = '.projectcheckouts';
+    
+    console.log('Loading ' + gitAddress);
     
     var deleteFolderRecursive = function(path) {
         if( fs.existsSync(path) ) {
@@ -36,7 +37,7 @@ exports.gitLoad = function(req, res){
     };
 
     
-    gitAddress = 'git@github.com:mrsanz/developmentWorkflowApp.git';
+//    gitAddress = 'git@github.com:mrsanz/developmentWorkflowApp.git';
     
     if(gitAddress === undefined){
         return res.status(400).send();

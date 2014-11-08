@@ -35,7 +35,7 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
             //take in git address
             console.log(this.gitAddress);
             
-            $scope.projectInfo = git.update({ gitAdress:this.gitAddress });
+            $scope.projectInfo = git.update({ gitAddress:this.gitAddress });
             console.log($scope.projectInfo);
 
             $scope.displayInputFields = true;
