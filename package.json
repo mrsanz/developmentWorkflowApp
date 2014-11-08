@@ -1,6 +1,7 @@
 {
   "name": "developementworkflowapp",
   "description": "Full stack applicationt to help you manage your workflow",
+"homepage":"https://github.com/mrsanz/developmentWorkflowApp",
   "version": "0.0.1",
   "author": "Loren",
   "engines": {

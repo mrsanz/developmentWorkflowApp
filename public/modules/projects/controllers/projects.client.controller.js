@@ -10,7 +10,7 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 		$scope.create = function() {
 			// Create new Project object
 			var project = new Projects ({
-                link: this.projectInfo.link,
+                link: this.projectInfo.homepage,
 				name: this.projectInfo.name,
                 description: this.projectInfo.description,
                 version: this.projectInfo.version,
@@ -35,13 +35,11 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
             //take in git address
             console.log(this.gitAddress);
             
-            if (this.gitAddress.search(/[a-z]*(:\/\/)(github)/i) > -1) {
-                
-                $scope.projectInfo = git.update({ gitAdress:this.gitAddress });
-                console.log($scope.projectInfo);
+            $scope.projectInfo = git.update({ gitAdress:this.gitAddress });
+            console.log($scope.projectInfo);
 
-                $scope.displayInputFields = true;
-            }
+            $scope.displayInputFields = true;
+
             
             //fetch project.json file from address
             
