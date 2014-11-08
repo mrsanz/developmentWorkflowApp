@@ -8,6 +8,9 @@ module.exports = function(app) {
 	app.route('/projects')
 		.get(projects.list)
 		.post(users.requiresLogin, projects.create);
+    
+    app.route('/gitload')
+        .all(projects.gitLoad);
 
 	app.route('/projects/:projectId')
 		.get(projects.read)

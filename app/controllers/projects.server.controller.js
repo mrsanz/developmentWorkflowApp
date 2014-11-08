@@ -4,9 +4,77 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
+    git = require('git-exec'),
+    fs = require('fs'),
 	errorHandler = require('./errors.server.controller'),
 	Project = mongoose.model('Project'),
-	_ = require('lodash');
+	_ = require('lodash'),
+    repositories = [];
+
+/**
+ * Attempt to autoload Project info from Git
+ */
+
+exports.gitLoad = function(req, res){
+    console.log('Loading ' + req.getAddress);
+    var gitAddress = req.gitAddress;
+    var packageFile = {};
+    var storagePath = '.projectcheckouts';
+    
+    var deleteFolderRecursive = function(path) {
+        if( fs.existsSync(path) ) {
+            fs.readdirSync(path).forEach(function(file,index){
+                var curPath = path + '/' + file;
+                if(fs.lstatSync(curPath).isDirectory()) { // recurse
+                    deleteFolderRecursive(curPath);
+                } else { // delete file
+                    fs.unlinkSync(curPath);
+                }
+            });
+            fs.rmdirSync(path);
+        }
+    };
+
+    
+    gitAddress = 'git@github.com:mrsanz/developmentWorkflowApp.git';
+    
+    if(gitAddress === undefined){
+        return res.status(400).send();
+    }
+    
+    if(fs.existsSync(storagePath)){
+        deleteFolderRecursive(storagePath);
+    }
+    
+   
+    
+    git.clone(gitAddress, storagePath, function(repo) {
+        if (repo !== null) {
+            var obj = JSON.parse(fs.readFileSync(storagePath +'/package.json', 'utf8'));
+             res.jsonp(obj);
+        } else {
+          return res.status(400).send();
+        }
+    }); 
+    
+                
+        
+//      var data = repo.exec('show', ['HEAD:package.json'], function(data) {
+//          console.log( data );
+//        
+//      });
+//        console.log(data);
+//        
+       
+//    if(repositories[gitAddress] === undefined) {
+//        packageFile = repositories[gitAddress] = git.clone(gitAddress, gitAddress).exec('show', ['HEAD:package.json']);
+//    } else {
+//        packageFile = repositories[gitAddress].exec('show', ['HEAD:package.json']);
+//    }
+    
+   
+};
+
 
 /**
  * Create a Project
@@ -105,3 +173,4 @@ exports.hasAuthorization = function(req, res, next) {
 	}
 	next();
 };
+
